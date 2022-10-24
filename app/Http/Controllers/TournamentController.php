@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TournamentController extends Controller
 {
@@ -13,7 +15,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        //
+        $tournament = Tournament::paginate(6);
     }
 
     /**
@@ -21,9 +23,15 @@ class TournamentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        Tournament::create([
+            'name'=>$request->name,
+            'location'=>$request->location,
+            'description'=>$request->description,
+            'date'=>$request->date
+
+        ]);
     }
 
     /**
@@ -34,7 +42,12 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'location'=>'required',
+            'description'=>'required|max:100',
+            'start_date'=>'required'
+        ]);
     }
 
     /**
@@ -45,7 +58,8 @@ class TournamentController extends Controller
      */
     public function show($id)
     {
-        //
+        $tournament = Tournament:: where('id', $id)-> where('id', Auth::id())->firstOrFail();
+        return view('index')-> with('tournament', $tournament);
     }
 
     /**
@@ -54,9 +68,12 @@ class TournamentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Tournament $tournament)
     {
-        //
+        if($tournament->user_id != Auth::id()){
+            return abort(403);
+        }
+        return view('tournament.edit')-> with ('tournament', $tournament);
     }
 
     /**
@@ -77,8 +94,14 @@ class TournamentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tournament $tournament)
     {
-        //
+        if($tournament->id != Auth::id()){
+            return abort(403);
+        }
+
+        $tournament->delete();
+
+        return to_route('notes.index')->with('success', 'Note deleted successfully');
     }
 }

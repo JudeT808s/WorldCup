@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,12 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+Route::get('/index', function () {
+    return view('index');
+});
+Route::get('/create', [TournamentController::class, 'create']);
+Route::get('/notes', [TournamentController::class, 'store']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
