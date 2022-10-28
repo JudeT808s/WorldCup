@@ -15,7 +15,9 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournament = Tournament::paginate(6);
+         $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(6);
+         return view('tournament.index')->with('tournaments', $tournaments);
+        // return view('tournament.index');
     }
 
     /**
@@ -29,7 +31,8 @@ class TournamentController extends Controller
             'name'=>$request->name,
             'location'=>$request->location,
             'description'=>$request->description,
-            'date'=>$request->date
+            'start_date'=>$request->start_date,
+            'team_id'=>$request->team_id,
 
         ]);
     }
@@ -46,7 +49,8 @@ class TournamentController extends Controller
             'name'=>'required',
             'location'=>'required',
             'description'=>'required|max:100',
-            'start_date'=>'required'
+            'start_date'=>'required' ,
+            'team_id'=>'required' ,
         ]);
     }
 
@@ -59,7 +63,7 @@ class TournamentController extends Controller
     public function show($id)
     {
         $tournament = Tournament:: where('id', $id)-> where('id', Auth::id())->firstOrFail();
-        return view('index')-> with('tournament', $tournament);
+        return view('tournament.index')-> with('tournament', $tournament);
     }
 
     /**

@@ -18,8 +18,8 @@ class PlayerFactory extends Factory
     {
         return [
             'name'=>$this->faker->name(),
-            'age'=>$this->faker->randomDigit(18,40),
-            'skill_level'=>$this->faker->randomDigit(0,100),
+            'age'=>$this->faker->numberBetween(18,40),
+            'skill_level'=>$this->faker->numberBetween(0,100),
             'country'=>$this->faker->country
 
         ];

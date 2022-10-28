@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Player;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,8 @@ class TeamFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word, /*
-            'player_id' => '1',
-            'sponsor_id' => '1',
+            'name' => $this->faker->word, 
+            'player_id' => $this->faker->randomElement(Player::pluck('id'))/*
             */
 
             // 'country' => "placeholder"

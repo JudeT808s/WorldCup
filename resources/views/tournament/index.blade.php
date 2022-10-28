@@ -8,14 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <!-- <x-alert-success>
-                {{session('success')}}
-            </x-alert-success> -->
-            <a href="{{ route('tournament.create') }}" class="btn-link btn-lg mb-2">+ New Tournament</a>
+         
+           {{$tournaments}}
             @forelse ($tournaments as $tournament)
                 <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
                     <h2 class="font-bold text-2xl">
-                        <a href="{{ route('tournament.show', $tournament->uuid) }}">{{ $tournament->name}}</a>
+                        <!-- <a href="{{ route('tournament.show', $tournament->id) }}">{{ $tournament->name}}</a> -->
                     </h2>
                     <p class="mt-2">
                         {{ Str::limit($tournament->text, 200) }}
