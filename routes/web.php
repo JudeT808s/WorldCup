@@ -17,16 +17,17 @@ use App\Http\Controllers\TournamentController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('home');
-});
+// Route::get('/home', function () {
+//     return view('home');
+// });
 // Route::get('/index', function () {
 //     return view('index');
 // });
 Route::get('/index', [TournamentController::class, 'index']);
 Route::get('/create', [TournamentController::class, 'create']);
-
 Route::get('/store', [TournamentController::class, 'store']);
+Route::get('/show', [TournamentController::class, 'show']);
+
 Route::resource('/tournament', TournamentController::class)->middleware(['auth']);
 
 

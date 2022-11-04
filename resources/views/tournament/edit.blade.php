@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <form action="{{ route('tournaments.update', $tournament) }}" method="post">
+        <form action="{{ route('tournament.update', $tournament) }}" method="post">
                 @method('PUT')
                     @csrf
                     <x-text-input
@@ -35,6 +35,9 @@
                         class="w-full mt-6"
                         :value="@old('description', $tournament->description)"></x-textarea>
 
+                        <input type="date" name="start_date"field="start_date"  
+                        value="{{$tournament->start_date}}" />
+                        
                     <x-primary-button class="mt-6">Edit Tournament</x-primary-button>
                 </form>
         </div>

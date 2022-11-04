@@ -15,7 +15,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-         $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(6);
+         $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
          return view('tournament.index')->with('tournaments', $tournaments);
         // return view('tournament.index');
     }
@@ -62,8 +62,8 @@ class TournamentController extends Controller
      */
     public function show($id)
     {
-        $tournament = Tournament:: where('id', $id)-> where('id', Auth::id())->firstOrFail();
-        return view('tournament.index')-> with('tournament', $tournament);
+        $tournament = Tournament:: where('id', $id)->firstOrFail();
+        return view('tournament.show')-> with('tournament', $tournament);
     }
 
     /**
@@ -87,11 +87,30 @@ class TournamentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tournament $tournament)
     {
-        //
-    }
+        //Checks if the user created the particular tournament or aborts
+        if($tournament->user_id != Auth::id()){
+            return abort(403);
+        }
+        //Makes sure everything is filled in from user
+        $request->validate([
+            'name'=> 'required',
+            'location'=> 'required',
+            'description'=> 'required',
+            'start_date'=> 'required',
 
+        ]);
+        //Updates with the validated entries
+        $tournament->update([
+            'name' => $request->name,
+            'location' => $request->location,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+        ]);
+        return to_route('tournament.show', $tournament->id)->with('success', 'Tournament updated successfully');
+    }
+ 
     /**
      * Remove the specified resource from storage.
      *
@@ -100,12 +119,12 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
-        if($tournament->id != Auth::id()){
+        if($tournament->user_id != Auth::id()){
             return abort(403);
         }
 
         $tournament->delete();
 
-        return to_route('notes.index')->with('success', 'Note deleted successfully');
+        return to_route('tournament.index')->with('success', 'Tournament deleted successfully');
     }
 }
