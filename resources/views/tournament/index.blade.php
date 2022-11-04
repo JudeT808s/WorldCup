@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-         
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <a href="{{ route('tournament.create') }}" class="btn-link btn-lg mb-2">Add a Tournament</a>
            <!-- {{$tournaments}} -->
            <!-- {{ $tournaments }} -->
             @forelse ($tournaments as $tournament)

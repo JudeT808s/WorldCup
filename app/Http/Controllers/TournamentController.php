@@ -25,16 +25,9 @@ class TournamentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        Tournament::create([
-            'name'=>$request->name,
-            'location'=>$request->location,
-            'description'=>$request->description,
-            'start_date'=>$request->start_date,
-            'team_id'=>$request->team_id,
-
-        ]);
+     return view('tournament.create');
     }
 
     /**
@@ -50,8 +43,19 @@ class TournamentController extends Controller
             'location'=>'required',
             'description'=>'required|max:100',
             'start_date'=>'required' ,
-            'team_id'=>'required' ,
+             'team_id'=>'required' ,
         ]);
+
+        Tournament::create([
+            'name' => $request->name,
+            'location' => $request->location,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'team_id' => $request->team_id,
+            'user_id' => Auth::id()
+        ]);
+
+        return to_route('tournament.index');
     }
 
     /**
@@ -119,7 +123,7 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
-        if($tournament->user_id != Auth::id()){
+        if($tournament->id != Auth::id()){
             return abort(403);
         }
 

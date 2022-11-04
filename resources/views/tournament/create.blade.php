@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <form action="{{ route('tournaments.store') }}" method="post">
+        <form action="{{ route('tournament.store') }}" method="post">
                     @csrf
                     <x-text-input
                         type="text"
@@ -34,6 +34,14 @@
                         class="w-full mt-6"
                         :value="@old('description')"></x-textarea>
 
+                        <input type="date" name="start_date"field="start_date"  
+                        :value="@old('start_date')" />
+                        <x-text-input
+                        type="text"
+                        name="team_id"
+                        field="team_id">
+                        
+                    </x-text-input>
                     <x-primary-button class="mt-6">Save Tournament</x-primary-button>
                 </form>
         </div>
