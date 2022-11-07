@@ -36,12 +36,16 @@
 
                         <input type="date" name="start_date"field="start_date"  
                         :value="@old('start_date')" />
-                        <x-text-input
-                        type="text"
-                        name="team_id"
-                        field="team_id">
                         
-                    </x-text-input>
+                        <select name="team_id" id="team_id">
+                        <!-- Loops through teams variable from controller b -->
+                        @forelse ($teams as $team)
+                        <option value="{{$team->id}}">{{$team->name}}</option>
+
+                        @empty
+                        <p>You have no teams yet.</p>
+                        @endforelse
+                    </select>
                     <x-primary-button class="mt-6">Save Tournament</x-primary-button>
                 </form>
         </div>

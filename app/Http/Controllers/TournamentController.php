@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Player;
+use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,9 @@ class TournamentController extends Controller
      */
     public function create()
     {
-     return view('tournament.create');
+        $teams = Team::all();
+
+     return view('tournament.create')->with('teams', $teams);
     }
 
     /**
@@ -66,8 +70,9 @@ class TournamentController extends Controller
      */
     public function show($id)
     {
+        $players = Player::all();
         $tournament = Tournament:: where('id', $id)->firstOrFail();
-        return view('tournament.show')-> with('tournament', $tournament);
+        return view('tournament.show')-> with('tournament', $tournament)->with('players', $players);
     }
 
     /**
@@ -81,8 +86,15 @@ class TournamentController extends Controller
         if($tournament->user_id != Auth::id()){
             return abort(403);
         }
-        return view('tournament.edit')-> with ('tournament', $tournament);
+
+        
+        // get all teams from db
+        $teams = Team::all();
+        // ->with( all teams ) 
+        
+        return view('tournament.edit')-> with ('tournament', $tournament)->with ('teams', $teams);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -103,6 +115,7 @@ class TournamentController extends Controller
             'location'=> 'required',
             'description'=> 'required',
             'start_date'=> 'required',
+            'team_id'=> 'required',
 
         ]);
         //Updates with the validated entries
@@ -110,9 +123,9 @@ class TournamentController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
-            'start_date' => $request->start_date,
+            'team_id' => $request->team_id,
         ]);
-        return to_route('tournament.show', $tournament->id)->with('success', 'Tournament updated successfully');
+        return to_route('tournament.index', $tournament->id)->with('success', 'Tournament updated successfully');
     }
  
     /**
@@ -123,7 +136,7 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
-        if($tournament->id != Auth::id()){
+        if($tournament->user_id != Auth::id()){
             return abort(403);
         }
 
