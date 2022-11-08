@@ -38,7 +38,7 @@
                         :value="@old('start_date')" />
                         
                         <select name="team_id" id="team_id">
-                        <!-- Loops through teams variable from controller b -->
+                        <!-- Loops through teams variable from controller the id is then stored in team_id -->
                         @forelse ($teams as $team)
                         <option value="{{$team->id}}">{{$team->name}}</option>
 

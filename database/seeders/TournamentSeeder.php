@@ -15,6 +15,8 @@ class TournamentSeeder extends Seeder
      */
     public function run()
     {
+        //Calls the corresponding factory and runs a certain amount of times to create data in the database
+
         Tournament::factory()->times(6)->create();
 
     }

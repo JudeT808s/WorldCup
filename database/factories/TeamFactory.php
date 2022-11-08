@@ -19,11 +19,8 @@ class TeamFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word, 
-            'player_id' => $this->faker->randomElement(Player::pluck('id'))/*
-            */
-
-            // 'country' => "placeholder"
+            'name' => $this->faker->word
+            
         ];
     }
 }

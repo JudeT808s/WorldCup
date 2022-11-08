@@ -17,6 +17,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
+        //Displays tournaments that the user has made by recency
          $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
          return view('tournament.index')->with('tournaments', $tournaments);
         // return view('tournament.index');
@@ -29,6 +30,7 @@ class TournamentController extends Controller
      */
     public function create()
     {
+        //Gets an array of all teams
         $teams = Team::all();
 
      return view('tournament.create')->with('teams', $teams);
@@ -45,11 +47,11 @@ class TournamentController extends Controller
         $request->validate([
             'name'=>'required',
             'location'=>'required',
-            'description'=>'required|max:100',
+            'description'=>'required|max:150',
             'start_date'=>'required' ,
              'team_id'=>'required' ,
         ]);
-
+        //Fills in user imputed data into database migrations
         Tournament::create([
             'name' => $request->name,
             'location' => $request->location,
@@ -67,11 +69,15 @@ class TournamentController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function show($id)
     {
+        //Gets an array of all players
         $players = Player::all();
+
+        //prints tournaments unless the first tournament is not found and gives an error
         $tournament = Tournament:: where('id', $id)->firstOrFail();
+        //Shows tournament by getting tournament_id and prints alongside array of players
         return view('tournament.show')-> with('tournament', $tournament)->with('players', $players);
     }
 
@@ -83,6 +89,7 @@ class TournamentController extends Controller
      */
     public function edit(Tournament $tournament)
     {
+        //If user is not an authorized user they can not edit existing tournaments
         if($tournament->user_id != Auth::id()){
             return abort(403);
         }
@@ -91,7 +98,7 @@ class TournamentController extends Controller
         // get all teams from db
         $teams = Team::all();
         // ->with( all teams ) 
-        
+        //Returns the edit.blade.php page with an array of teams
         return view('tournament.edit')-> with ('tournament', $tournament)->with ('teams', $teams);
     }
     
@@ -136,6 +143,7 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
+        //Must be authorized user to delete
         if($tournament->user_id != Auth::id()){
             return abort(403);
         }

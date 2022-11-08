@@ -11,6 +11,7 @@ class Team extends Model
     use HasFactory;
 
     public function team(){
+        //One particular team can have many players (O:M)
         return $this->hasMany(Player::class);
     }
     // public function team2(){
