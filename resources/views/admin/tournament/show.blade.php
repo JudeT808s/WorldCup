@@ -34,7 +34,7 @@
                 </h2>
                 <p class="mt-6 whitespace-">{{$tournament->text}}</p>
                 <div style="border-bottom: 5px solid red">
-                <h1>Players</h1>
+                <strong><h1>Players</h1></strong>
                 </div>
                 <ul>
                      @forelse ($players as $player)

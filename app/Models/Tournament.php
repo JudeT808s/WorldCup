@@ -16,6 +16,7 @@ class Tournament extends Model
 public function tournament(){
     return $this->belongsTo(Team::class);
 }
+
 public function user(){
     return $this->belongsTo(User::class);
 }

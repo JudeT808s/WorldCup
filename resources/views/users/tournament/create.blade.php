@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 btn-lg">
         <form action="{{ route('tournament.store') }}" method="post">
                     @csrf
                     <x-text-input

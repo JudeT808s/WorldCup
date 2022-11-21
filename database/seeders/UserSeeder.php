@@ -23,13 +23,13 @@ class UserSeeder extends Seeder
         $role_user = Role::where('name', 'user')->first();
         
         $admin = new User();
-        $admin->name = 'Judie';
+        $admin->name = 'Judie GG';
         $admin->email = 'jthegd@gmail.com';
         $admin->password = Hash::make('password');
         $admin ->save();
 
-
-        $admin->roles->attatch($role_admin);
+        //attatch admin role to user above
+        $admin->roles()->attach($role_admin);
         
         
         $user = new User();

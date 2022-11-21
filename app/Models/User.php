@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+ 
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -46,7 +47,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'user_role');
     }
 
-    public function authoriseRoles($roles)
+    public function authorizeRoles($roles)
     {
         if(is_array($roles))
         {
