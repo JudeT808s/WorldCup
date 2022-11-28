@@ -19,13 +19,8 @@ use App\Http\Controllers\Admin\TournamentController;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/home', function () {
-//     return view('home');
-// });
-// Route::get('/index', function () {
-//     return view('index');
-// });
-Route::get('/index', [TournamentController::class, 'index']);
+
+// Route::get('/home', [TournamentController::class, 'home']);
 Route::get('/create', [TournamentController::class, 'create']);
 Route::get('/store', [TournamentController::class, 'store']);
 Route::get('/show', [TournamentController::class, 'show']);
@@ -35,13 +30,13 @@ Route::resource('/tournament', TournamentController::class)->middleware(['auth']
 
 
 Route::get('/dashboard', function () {
-    return redirect('/../index');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
-Route::get('/home/publishers', [App\Http\Controllers\HomeController::class, 'publisherIndex'])->name('home.publisher.index');
+Route::get('/home/tournament', [App\Http\Controllers\HomeController::class, 'tournamentIndex'])->name('home.tournament.index');
 
 
 // This will create all the routes for Book

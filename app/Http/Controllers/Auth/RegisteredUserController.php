@@ -18,6 +18,7 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public const HOME = '/home';
     public function create()
     {
         return view('auth.register');

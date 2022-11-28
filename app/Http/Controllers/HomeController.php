@@ -38,4 +38,18 @@ class HomeController extends Controller
         }
         return redirect()->route($home);
     }
+
+    public function tournamentIndex(Request $request)
+    {
+
+        $user = Auth::user();
+        $home = 'home';
+
+        if ($user->hasRole('admin')) {
+            $home = 'admin.tournament.index';
+        } else if ($user->hasRole('user')) {
+            $home = 'user.tournament.index';
+        }
+        return redirect()->route($home);
+    }
 }

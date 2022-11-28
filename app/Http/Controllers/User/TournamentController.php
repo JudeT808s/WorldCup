@@ -66,7 +66,7 @@ class TournamentController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return to_route('tournament.index');
+        return to_route('user.tournament.index');
     }
 
     /**
@@ -85,7 +85,7 @@ class TournamentController extends Controller
         //prints tournaments unless the first tournament is not found and gives an error
         $tournament = Tournament::where('id', $id)->firstOrFail();
         //Shows tournament by getting tournament_id and prints alongside array of players
-        return view('tournament.show')->with('tournament', $tournament)->with('players', $players);
+        return view('user.tournament.show')->with('tournament', $tournament)->with('players', $players);
     }
 
     /**
@@ -107,7 +107,7 @@ class TournamentController extends Controller
         $teams = Team::all();
         // ->with( all teams ) 
         //Returns the edit.blade.php page with an array of teams
-        return view('tournament.edit')->with('tournament', $tournament)->with('teams', $teams);
+        return view('user.tournament.edit')->with('tournament', $tournament)->with('teams', $teams);
     }
 
 
@@ -140,7 +140,7 @@ class TournamentController extends Controller
             'description' => $request->description,
             'team_id' => $request->team_id,
         ]);
-        return to_route('tournament.index', $tournament->id)->with('success', 'Tournament updated successfully');
+        return to_route('user.tournament.index', $tournament->id)->with('success', 'Tournament updated successfully');
     }
 
     /**
@@ -160,6 +160,6 @@ class TournamentController extends Controller
 
         $tournament->delete();
 
-        return to_route('tournament.index')->with('success', 'Tournament deleted successfully');
+        return to_route('user.tournament.index')->with('success', 'Tournament deleted successfully');
     }
 }
