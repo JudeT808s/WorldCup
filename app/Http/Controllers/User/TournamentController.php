@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -17,9 +18,11 @@ class TournamentController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $user->authorizeRoles('user');
         //Displays tournaments that the user has made by recency
-         $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
-         return view('tournament.index')->with('tournaments', $tournaments);
+        $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
+        return view('user.tournament.index')->with('tournaments', $tournaments);
         // return view('tournament.index');
     }
 
@@ -30,10 +33,12 @@ class TournamentController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
         //Gets an array of all teams
         $teams = Team::all();
 
-     return view('tournament.create')->with('teams', $teams);
+        return view('user.tournament.create')->with('teams', $teams);
     }
 
     /**
@@ -45,11 +50,11 @@ class TournamentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'location'=>'required',
-            'description'=>'required|max:150',
-            'start_date'=>'required' ,
-             'team_id'=>'required' ,
+            'name' => 'required',
+            'location' => 'required',
+            'description' => 'required|max:150',
+            'start_date' => 'required',
+            'team_id' => 'required',
         ]);
         //Fills in user imputed data into database migrations
         Tournament::create([
@@ -69,16 +74,18 @@ class TournamentController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function show($id)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('user');
         //Gets an array of all players
         $players = Player::all();
 
         //prints tournaments unless the first tournament is not found and gives an error
-        $tournament = Tournament:: where('id', $id)->firstOrFail();
+        $tournament = Tournament::where('id', $id)->firstOrFail();
         //Shows tournament by getting tournament_id and prints alongside array of players
-        return view('tournament.show')-> with('tournament', $tournament)->with('players', $players);
+        return view('tournament.show')->with('tournament', $tournament)->with('players', $players);
     }
 
     /**
@@ -89,19 +96,20 @@ class TournamentController extends Controller
      */
     public function edit(Tournament $tournament)
     {
+        $user = Auth::user();
         //If user is not an authorized user they can not edit existing tournaments
-        if($tournament->user_id != Auth::id()){
+        if ($tournament->user_id != Auth::id()) {
             return abort(403);
         }
 
-        
+
         // get all teams from db
         $teams = Team::all();
         // ->with( all teams ) 
         //Returns the edit.blade.php page with an array of teams
-        return view('tournament.edit')-> with ('tournament', $tournament)->with ('teams', $teams);
+        return view('tournament.edit')->with('tournament', $tournament)->with('teams', $teams);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -113,16 +121,16 @@ class TournamentController extends Controller
     public function update(Request $request, Tournament $tournament)
     {
         //Checks if the user created the particular tournament or aborts
-        if($tournament->user_id != Auth::id()){
+        if ($tournament->user_id != Auth::id()) {
             return abort(403);
         }
         //Makes sure everything is filled in from user
         $request->validate([
-            'name'=> 'required',
-            'location'=> 'required',
-            'description'=> 'required',
-            'start_date'=> 'required',
-            'team_id'=> 'required',
+            'name' => 'required',
+            'location' => 'required',
+            'description' => 'required',
+            'start_date' => 'required',
+            'team_id' => 'required',
 
         ]);
         //Updates with the validated entries
@@ -134,7 +142,7 @@ class TournamentController extends Controller
         ]);
         return to_route('tournament.index', $tournament->id)->with('success', 'Tournament updated successfully');
     }
- 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -143,8 +151,10 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
+        $user = Auth::user();
+
         //Must be authorized user to delete
-        if($tournament->user_id != Auth::id()){
+        if ($tournament->user_id != Auth::id()) {
             return abort(403);
         }
 

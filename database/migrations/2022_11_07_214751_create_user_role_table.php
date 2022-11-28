@@ -13,19 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
+        // Laravel names the pivot table with the joint names of the two tables in the many-t0-many relationship
+        // Laravel does this in alabetical order which would be role_user
+        // However I think role_user makes more sense for the table name.
         Schema::create('user_role', function (Blueprint $table) {
             $table->id();
-            //these attributes should match user and roles table
+            // these attributes must be the same datatype as the ids that defined in the users and roles tables
+            // which are unsigned bigInts
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->timestamps();
 
-            //Add foreign keys from users and roles 
+            // add foreign keys - ids from users and roles table
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('restrict');
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -34,11 +37,11 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('user_role');
-    //   Schema::table('user_role', function (Blueprint $table){
-    //         $table->dropForeign('user_id');
-    //         $table->dropColumn('user_id');
-    //      });
-    //     Schema::dropIfExists('user_id');
-    //     Schema::dropIfExists('role_id');
+        //   Schema::table('user_role', function (Blueprint $table){
+        //         $table->dropForeign('user_id');
+        //         $table->dropColumn('user_id');
+        //      });
+        //     Schema::dropIfExists('user_id');
+        //     Schema::dropIfExists('role_id');
     }
 };

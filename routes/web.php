@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\TournamentController as AdminTournamentController;
+use App\Http\Controllers\User\TournamentController as UserTournamentController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\Admin\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,16 @@ Route::resource('/tournament', TournamentController::class)->middleware(['auth']
 
 Route::get('/dashboard', function () {
     return redirect('/../index');
-
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+Route::get('/home/publishers', [App\Http\Controllers\HomeController::class, 'publisherIndex'])->name('home.publisher.index');
+
+
+// This will create all the routes for Book
+// and the routes will only be available when a user is logged in
+Route::resource('/admin/books', TournamentController::class)->middleware(['auth'])->names('admin.books');
+
+Route::resource('/user/books', TournamentController::class)->middleware(['auth'])->names('user.books')->only(['index', 'show']);
