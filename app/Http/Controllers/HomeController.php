@@ -39,16 +39,16 @@ class HomeController extends Controller
         return redirect()->route($home);
     }
 
-    public function tournamentIndex(Request $request)
+    public function teamIndex(Request $request)
     {
 
         $user = Auth::user();
         $home = 'home';
 
         if ($user->hasRole('admin')) {
-            $home = 'admin.tournament.index';
+            $home = 'admin.team.index';
         } else if ($user->hasRole('user')) {
-            $home = 'user.tournament.index';
+            $home = 'user.team.index';
         }
         return redirect()->route($home);
     }

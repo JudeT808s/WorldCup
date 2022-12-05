@@ -10,11 +10,15 @@ class Team extends Model
 {
     use HasFactory;
 
-    public function team(){
+    protected $guarded = [];
+
+    public function team()
+    {
         //One particular team can have many players (O:M)
         return $this->hasMany(Player::class);
     }
-    // public function team2(){
-    //     return $this->belongsTo(Tournament::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

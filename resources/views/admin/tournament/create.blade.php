@@ -19,10 +19,7 @@
 
                 <input type="date" name="start_date"field="start_date" :value="@old('start_date')" />
 
-                {{-- <select name="team_id" id="team_id">
-                    <!-- Loops through teams variable from controller the id is then stored in team_id -->
-                    @forelse ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option> --}}
+
                 <div class="form-group">
                     <label for="teams">Teams</label>
                     <select name="team_id">
@@ -33,12 +30,9 @@
                         @endforeach
                     </select>
                 </div>
-                @empty
-                    <p>You have no teams yet.</p>
-                    @endforelse
-                    </select>
-                    <x-primary-button class="mt-6">Save Tournament</x-primary-button>
-                </form>
-            </div>
+
+                <x-primary-button class="mt-6">Save Tournament</x-primary-button>
+            </form>
         </div>
-    </x-app-layout>
+    </div>
+</x-app-layout>

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,12 +17,12 @@ class TeamController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $user->authorizeRoles('admin');
+        $user->authorizeRoles('user');
 
         $teams = Team::all();
 
 
-        return view('admin.team.index')->with('teams', $teams);
+        return view('user.team.index')->with('teams', $teams);
     }
 
     /** 
@@ -34,12 +33,12 @@ class TeamController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $user->authorizeRoles('admin');
+        $user->authorizeRoles('user');
 
         //Gets an array of all players
         /* $players = Player::all();*/
 
-        return view('admin.team.create')/*->with('players', $players)*/;
+        return view('user.team.create')/*->with('players', $players)*/;
     }
 
 
@@ -64,7 +63,7 @@ class TeamController extends Controller
         Team::create([
             'name' => $request->name,
         ]);
-        return to_route('admin.team.index');
+        return to_route('user.team.index');
     }
 
     /**
@@ -78,7 +77,7 @@ class TeamController extends Controller
         $team = team::where('id', $id)->firstOrFail();
 
 
-        return view('admin.team.show')->with('team', $team);
+        return view('user.team.show')->with('team', $team);
     }
 
     /**
@@ -87,21 +86,9 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Team $team)
+    public function edit($id)
     {
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
-        //If user is not an authorized user they can not edit existing tournaments
-        if ($team->user_id != Auth::id()) {
-            return abort(403);
-        }
-
-
-        // get all teams from db
-        /*$players = Player::all();*/
-        // ->with( all teams ) 
-        //Returns the edit.blade.php page with an array of teams
-        return view('admin.team.edit')->with('team', $team)/*->with('players', $player)*/;
+        //
     }
 
     /**
@@ -111,20 +98,9 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, $id)
     {
-        if ($team->user_id != Auth::id()) {
-            return abort(403);
-        }
-        //Makes sure everything is filled in from user
-        $request->validate([
-            'name' => 'required',
-        ]);
-        //Updates with the validated entries
-        $team->update([
-            'name' => $request->name,
-        ]);
-        return to_route('admin.team.show', $team->id)->with('success', 'team updated successfully');
+        //
     }
 
     /**
@@ -133,18 +109,8 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Team $team)
+    public function destroy($id)
     {
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
-
-        //Must be authorized user to delete
-        if ($team->user_id != Auth::id()) {
-            return abort(403);
-        }
-
-        $team->delete();
-
-        return to_route('admin.team.index')->with('success', 'Team deleted successfully');
+        //
     }
 }

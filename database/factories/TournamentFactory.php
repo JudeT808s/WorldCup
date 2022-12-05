@@ -19,12 +19,11 @@ class TournamentFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->word,
-             'location'=>$this->faker->country,
-             'start_date'=>$this->faker->date,
-             'description'=>$this->faker->sentence,
-             'user_id' => $this->faker->randomElement(User::pluck('id')),
-             'team_id' => $this->faker->randomElement(Team::pluck('id')),
+            'name' => $this->faker->word,
+            'location' => $this->faker->country,
+            'start_date' => $this->faker->date,
+            'description' => $this->faker->sentence,
+            'user_id' => $this->faker->randomElement(User::pluck('id')),
 
         ];
     }
