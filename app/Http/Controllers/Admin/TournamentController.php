@@ -21,7 +21,7 @@ class TournamentController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('admin');
         //Displays tournaments that the user has made by recency
-        $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
+        $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4)->with('teams');
 
 
         return view('admin.tournament.index')->with('tournaments', $tournaments);

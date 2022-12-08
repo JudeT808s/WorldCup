@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Team extends Model
 {
     use HasFactory;
-
+    // protected $fillable = ['name']
     protected $guarded = [];
 
     public function team()
@@ -20,5 +20,10 @@ class Team extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function sponsor()
+    {
+        //One particular team can have many players (O:M)
+        return $this->belongsToMany(Sponsor::class)->withTimestamps();
     }
 }

@@ -9,7 +9,6 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             {{-- route links to the tournament.create.blade.php page --}}
-            <a href="{{ route('user.tournament.create') }}" class="btn-link btn-lg mb-2">Add a Tournament</a>
             <!-- {{ $tournaments }} -->
             <!-- {{ $tournaments }} -->
             @forelse ($tournaments as $tournament)

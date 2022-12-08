@@ -20,7 +20,8 @@ class TeamController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('admin');
 
-        $teams = Team::all();
+        $teams = Team::with('sponsors')
+            ->get();
 
 
         return view('admin.team.index')->with('teams', $teams);

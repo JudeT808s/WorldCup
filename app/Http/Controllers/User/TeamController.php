@@ -19,7 +19,8 @@ class TeamController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('user');
 
-        $teams = Team::all();
+        $teams = Team::with('sponsors')
+            ->get();
 
 
         return view('user.team.index')->with('teams', $teams);
