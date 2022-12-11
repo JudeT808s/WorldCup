@@ -21,7 +21,7 @@ class Team extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function sponsor()
+    public function sponsors()
     {
         //One particular team can have many players (O:M)
         return $this->belongsToMany(Sponsor::class)->withTimestamps();

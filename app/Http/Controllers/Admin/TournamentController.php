@@ -21,7 +21,7 @@ class TournamentController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('admin');
         //Displays tournaments that the user has made by recency
-        $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4)->with('teams');
+        $tournaments = Tournament::where('user_id', Auth::id())->latest('updated_at')->paginate(4);
 
 
         return view('admin.tournament.index')->with('tournaments', $tournaments);
@@ -87,7 +87,7 @@ class TournamentController extends Controller
         //prints tournaments unless the first tournament is not found and gives an error
         $tournament = Tournament::where('id', $id)->firstOrFail();
         //Shows tournament by getting tournament_id and prints alongside array of players
-        return view('admin.tournament.show')->with('tournament', $tournament)->with('players', $players);
+        return view('admin.tournament.show')->with('tournament', $tournament)->with('player', $player);
     }
 
     /**

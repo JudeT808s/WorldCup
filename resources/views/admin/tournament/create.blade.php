@@ -20,7 +20,7 @@
                 <input type="date" name="start_date"field="start_date" :value="@old('start_date')" />
 
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="teams">Teams</label>
                     <select name="team_id">
                         @foreach ($teams as $team)
@@ -29,8 +29,20 @@
                             </option>
                         @endforeach
                     </select>
+                </div> --}}
+                <div class="form-group">
+                    <label for="team"> <strong> Teams </strong> <br> </label>
+                    @foreach ($teams as $team)
+                        <input type="checkbox", value="{{ $team->id }}" name="teams[]">{{ $team->name }}
+                    @endforeach
                 </div>
-
+                <br>
+                <div class="form-group">
+                    <label for="team"> <strong> Teams </strong> <br> </label>
+                    @foreach ($teams as $team)
+                        <input type="checkbox", value="{{ $team->id }}" name="teams[]">{{ $team->name }}
+                    @endforeach
+                </div>
                 <x-primary-button class="mt-6">Save Tournament</x-primary-button>
             </form>
         </div>

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Team;
+use App\Models\Sponsor;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SponsorSeeder extends Seeder
 {
@@ -14,6 +16,15 @@ class SponsorSeeder extends Seeder
      */
     public function run()
     {
-        //
+
+        Sponsor::factory()
+            ->times(3)
+            ->create();
+
+
+        foreach (Team::all() as $team) {
+            $sponsors = Sponsor::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $team->sponsors()->attach($sponsors);
+        }
     }
 }

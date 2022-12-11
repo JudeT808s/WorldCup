@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
+use App\Models\Sponsor;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +40,9 @@ class TeamController extends Controller
 
         //Gets an array of all players
         /* $players = Player::all();*/
+        $sponsors = Sponsor::all();
 
-        return view('admin.team.create')/*->with('players', $players)*/;
+        return view('admin.team.create')->with('sponsors', $sponsors); /*->with('players', $players)*/;
     }
 
 
@@ -61,10 +63,14 @@ class TeamController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'sponsors' => ['required', 'exists:sponsors,id']
         ]);
-        Team::create([
+        $team = Team::create([
             'name' => $request->name,
+            'user_id' => Auth::id()
         ]);
+
+        $team->sponsors()->attach($request->sponsors);
         return to_route('admin.team.index');
     }
 

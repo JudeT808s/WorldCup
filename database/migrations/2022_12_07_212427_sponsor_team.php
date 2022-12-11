@@ -31,9 +31,10 @@ return new class extends Migration
      */
     public function down()
     {
-        $table->dropForeign((['team_id']));
-        $table->dropColumn((['team_id']));
-        $table->dropForeign((['sponsor_id']));
-        $table->dropColumn((['sponsor_id']));
+        Schema::dropIfExists('sponsor_team');
+        // $table->dropForeign((['team_id']));
+        // $table->dropColumn((['team_id']));
+        // $table->dropForeign((['sponsor_id']));
+        // $table->dropColumn((['sponsor_id']));
     }
 };

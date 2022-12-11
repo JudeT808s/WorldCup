@@ -11,6 +11,13 @@
                 @csrf
                 <x-text-input type="text" name="name" field="name" placeholder="name" class="w-full"
                     autocomplete="off" :value="@old('name')"></x-text-input>
+                <div class="form-group">
+                    <label for="sponsor"> <strong> Sponsors </strong> <br> </label>
+                    @foreach ($sponsors as $sponsor)
+                        <input type="checkbox", value="{{ $sponsor->id }}" name="sponsors[]">{{ $sponsor->name }}
+                    @endforeach
+                    {{ $sponsor->id }}
+                </div>
                 <x-primary-button class="mt-6">Save Team</x-primary-button>
             </form>
         </div>

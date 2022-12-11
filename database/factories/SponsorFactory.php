@@ -17,7 +17,7 @@ class SponsorFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->fake->name,
+            'name' => $this->faker->name,
             'description' => $this->faker->realText
         ];
     }
