@@ -56,17 +56,21 @@ class TournamentController extends Controller
             'location' => 'required',
             'description' => 'required|max:150',
             'start_date' => 'required',
-            'team_id' => 'required',
+            'teams' => ['required', 'exists:teams,id']
         ]);
         //Fills in user imputed data into database migrations
-        Tournament::create([
+        $tournament = Tournament::create([
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
             'start_date' => $request->start_date,
-            'team_id' => $request->team_id,
+            //'teams' => $request->teams,
             'user_id' => Auth::id()
         ]);
+
+        //Adds tournament to teams table
+        $tournament->teams()->attach($request->teams);
+
 
         return to_route('admin.tournament.index');
     }
@@ -81,13 +85,10 @@ class TournamentController extends Controller
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
-        //Gets an array of all players
-        $players = Player::all();
 
         //prints tournaments unless the first tournament is not found and gives an error
         $tournament = Tournament::where('id', $id)->firstOrFail();
-        //Shows tournament by getting tournament_id and prints alongside array of players
-        return view('admin.tournament.show')->with('tournament', $tournament)->with('player', $player);
+        return view('admin.tournament.show')->with('tournament', $tournament);
     }
 
     /**
@@ -133,7 +134,6 @@ class TournamentController extends Controller
             'location' => 'required',
             'description' => 'required',
             'start_date' => 'required',
-            'team_id' => 'required',
 
         ]);
         //Updates with the validated entries
@@ -141,7 +141,7 @@ class TournamentController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
-            'team_id' => $request->team_id,
+            'start_date' => $request->start_date
         ]);
         return to_route('admin.tournament.show', $tournament->id)->with('success', 'Tournament updated successfully');
     }
@@ -149,19 +149,14 @@ class TournamentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Tournament $tournament
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tournament $tournament)
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
-
-        //Must be authorized user to delete
-        if ($tournament->user_id != Auth::id()) {
-            return abort(403);
-        }
-
+        $tournament->teams()->delete();
         $tournament->delete();
 
         return to_route('admin.tournament.index')->with('success', 'Tournament deleted successfully');

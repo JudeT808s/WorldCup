@@ -21,7 +21,6 @@ return new class extends Migration
             $table->date('start_date');
             $table->timestamps();
             //Outlines foreign keys
-            // $table->foreignId('team_id')->constrained();
             $table->foreignId('user_id')->constrained();
         });
     }
@@ -34,11 +33,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('tournaments');
-        //  Schema::table('tournaments', function (Blueprint $table){
-        //     $table->dropForeign('user_id');
-        //     $table->dropColumn('user_id');
-        //  });
-
-
     }
 };

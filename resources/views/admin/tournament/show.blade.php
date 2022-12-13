@@ -34,18 +34,6 @@
                 {{ $tournament->start_date }}
             </h2>
             <p class="mt-6 whitespace-">{{ $tournament->text }}</p>
-            <div style="border-bottom: 5px solid red">
-                <strong>
-                    <h1>Players</h1>
-                </strong>
-            </div>
-            <ul>
-                @forelse ($players as $player)
-                    <li>{{ $player->name }}</li>
-                @empty
-                    <p>You have no players yet.</p>
-                @endforelse
-            </ul>
+
         </div>
-    </div>
 </x-app-layout>

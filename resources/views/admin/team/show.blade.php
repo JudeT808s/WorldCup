@@ -25,12 +25,10 @@
                 {{ $team->name }}
             </h2>
             <p class="mt-6 whitespace-">{{ $team->text }}</p>
-            @foreach ($team->sponsors as $sponsor)
-                <tr>
-                    <td class="font-bold">Sponsor </td>
-                    <td>{{ $sponsor->name }}</td>
-                </tr>
-            @endforeach
+            <tr>
+                <td class="font-bold">Sponsor </td>
+                <td>{{ $team->sponsor->name }}</td>
+            </tr>
         </div>
         <ul>
 

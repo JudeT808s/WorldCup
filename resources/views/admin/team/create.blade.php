@@ -11,12 +11,17 @@
                 @csrf
                 <x-text-input type="text" name="name" field="name" placeholder="name" class="w-full"
                     autocomplete="off" :value="@old('name')"></x-text-input>
+
                 <div class="form-group">
-                    <label for="sponsor"> <strong> Sponsors </strong> <br> </label>
-                    @foreach ($sponsors as $sponsor)
-                        <input type="checkbox", value="{{ $sponsor->id }}" name="sponsors[]">{{ $sponsor->name }}
-                    @endforeach
-                    {{ $sponsor->id }}
+                    <label for="sponsor">sponsor</label>
+                    <select name="sponsor_id">
+                        @foreach ($sponsors as $sponsor)
+                            <option value="{{ $sponsor->id }}"
+                                {{ old('sponsor_id') == $sponsor->id ? 'selected' : '' }}>
+                                {{ $sponsor->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <x-primary-button class="mt-6">Save Team</x-primary-button>
             </form>

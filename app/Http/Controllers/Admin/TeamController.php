@@ -21,7 +21,7 @@ class TeamController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('admin');
 
-        $teams = Team::with('sponsors')
+        $teams = Team::with('sponsor')
             ->get();
 
 
@@ -53,36 +53,43 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function tournament()
-    {
-        return $this->belongsTo(Tournament::class);
-    }
+    // public function tournament()
+    // {
+    //     return $this->belongsTo(Tournament::class);
+    // }
+
 
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'sponsors' => ['required', 'exists:sponsors,id']
+            'sponsor_id' => 'required',
         ]);
+
         $team = Team::create([
             'name' => $request->name,
+            'sponsor_id' => $request->sponsor_id,
             'user_id' => Auth::id()
         ]);
 
-        $team->sponsors()->attach($request->sponsors);
         return to_route('admin.team.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param \App\Models\Team $team
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        $team = team::where('id', $id)->firstOrFail();
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
+        if (!Auth::id()) {
+            return abort(403);
+        }
 
 
         return view('admin.team.show')->with('team', $team);
@@ -91,7 +98,7 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Team $team
      * @return \Illuminate\Http\Response
      */
     public function edit(Team $team)
@@ -102,13 +109,15 @@ class TeamController extends Controller
         if ($team->user_id != Auth::id()) {
             return abort(403);
         }
+        $sponsors = Sponsor::all();
 
 
         // get all teams from db
         /*$players = Player::all();*/
         // ->with( all teams ) 
         //Returns the edit.blade.php page with an array of teams
-        return view('admin.team.edit')->with('team', $team)/*->with('players', $player)*/;
+        return view('admin.team.edit')->with('team', $team)->with('sponsors', $sponsors);
+            /*->with('players', $player)*/;
     }
 
     /**
@@ -126,10 +135,13 @@ class TeamController extends Controller
         //Makes sure everything is filled in from user
         $request->validate([
             'name' => 'required',
+            'sponsor_id' => 'required',
+
         ]);
         //Updates with the validated entries
         $team->update([
             'name' => $request->name,
+            'sponsor_id' => $request->sponsor_id
         ]);
         return to_route('admin.team.show', $team->id)->with('success', 'team updated successfully');
     }
@@ -137,19 +149,13 @@ class TeamController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Team $team
      * @return \Illuminate\Http\Response
      */
     public function destroy(Team $team)
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
-
-        //Must be authorized user to delete
-        if ($team->user_id != Auth::id()) {
-            return abort(403);
-        }
-
         $team->delete();
 
         return to_route('admin.team.index')->with('success', 'Team deleted successfully');

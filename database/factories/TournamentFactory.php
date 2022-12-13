@@ -24,7 +24,7 @@ class TournamentFactory extends Factory
             'start_date' => $this->faker->date,
             'description' => $this->faker->sentence,
             'user_id' => $this->faker->randomElement(User::pluck('id')),
-            'team_id' => $this->faker->randomElement(Team::pluck('id')),
+            // 'team_id' => $this->faker->randomElement(Team::pluck('id')),
 
         ];
     }

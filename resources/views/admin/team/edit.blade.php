@@ -12,6 +12,18 @@
                 @csrf
                 <input type="text" name="name" field="name" placeholder="name" class="w-full mt-6" autocomplete="off"
                     value="{{ $team->name }}"></input>
+
+                <div class="form-group">
+                    <label for="sponsor">sponsor</label>
+                    <select name="sponsor_id">
+                        @foreach ($sponsors as $sponsor)
+                            <option value="{{ $sponsor->id }}"
+                                {{ old('sponsor_id') == $sponsor->id ? 'selected' : '' }}>
+                                {{ $sponsor->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <x-primary-button class="mt-6">Edit Team</x-primary-button>
             </form>
         </div>

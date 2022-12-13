@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('skill_level');
             $table->string('country');
             //Many players can be in one team
-            $table->foreignId('team_id')->constrained();
+            $table->foreignId('teams_id')->constrained();
             $table->timestamps();
         });
     }

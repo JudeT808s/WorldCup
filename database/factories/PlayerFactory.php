@@ -23,7 +23,7 @@ class PlayerFactory extends Factory
             'skill_level' => $this->faker->numberBetween(0, 100),
             'country' => $this->faker->country,
             //Picks a random team_id and uses it as a foreign key this then connects back to the player model
-            'team_id' => $this->faker->randomElement(Team::pluck('id'))
+            'teams_id' => $this->faker->randomElement(Team::pluck('id'))
 
         ];
     }

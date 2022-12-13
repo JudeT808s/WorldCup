@@ -12,12 +12,18 @@ class Tournament extends Model
 
     protected $guarded = [];
 
-//The relationship (O:M) with team and tournmament
-public function tournament(){
-    return $this->belongsTo(Team::class);
-}
+    //The relationship (O:M) with team and tournmament
+    // public function tournament()
+    // {
+    //     return $this->hasMany(Team::class)->withTimestamps();
+    // }
 
-public function user(){
-    return $this->belongsTo(User::class);
-}
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class)->withTimestamps();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Player;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,8 @@ class TeamFactory extends Factory
         return [
             'name' => $this->faker->word,
             'user_id' => $this->faker->randomElement(User::pluck('id')),
+
+
         ];
     }
 }

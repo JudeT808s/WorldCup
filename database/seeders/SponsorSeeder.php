@@ -19,12 +19,13 @@ class SponsorSeeder extends Seeder
 
         Sponsor::factory()
             ->times(3)
+            ->hasTeams(2)
             ->create();
 
 
-        foreach (Team::all() as $team) {
-            $sponsors = Sponsor::inRandomOrder()->take(rand(1, 3))->pluck('id');
-            $team->sponsors()->attach($sponsors);
-        }
+        // foreach (Team::all() as $team) {
+        //     $sponsors = Sponsor::inRandomOrder()->take(rand(1, 3))->pluck('id');
+        //     $team->sponsors()->attach($sponsors);
+        // }
     }
 }

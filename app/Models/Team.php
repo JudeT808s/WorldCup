@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Team extends Model
 {
     use HasFactory;
-    // protected $fillable = ['name']
+    //protected $fillable = ['name', 'sponsor_id', 'user_id'];
     protected $guarded = [];
 
     public function team()
@@ -21,9 +21,15 @@ class Team extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function sponsors()
+
+    public function tournaments()
+    {
+        return $this->belongsToMany(Tournament::class)->withTimestamps();
+    }
+
+    public function sponsor()
     {
         //One particular team can have many players (O:M)
-        return $this->belongsToMany(Sponsor::class)->withTimestamps();
+        return $this->belongsTo(Sponsor::class);
     }
 }

@@ -22,22 +22,19 @@
 
 
 
-                <select name="team_id" id="team_id">
-                    <!-- Loops through teams variable from controller b -->
-                    @forelse ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                <div class="form-group">
+                    <label for="teams"> <strong> Teams</strong> <br> </label>
+                    @foreach ($teams as $team)
+                        <input type="checkbox", value="{{ $team->id }}" name="teams[]">
+                        {{ $team->name }}
+                    @endforeach
+                </div>
 
-                    @empty
-                        <p>You have no teams yet.</p>
-                    @endforelse
-                </select>
-
-                <!-- "
+                {{-- <!-- "
                         @if ($team->id == $tournament->team_id)
 {{ 'checked' }}
-@endif
-                        
-                        " -->
+@endif --}}
+
                 <x-primary-button class="mt-6">Edit Tournament</x-primary-button>
             </form>
         </div>
