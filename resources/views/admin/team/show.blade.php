@@ -26,8 +26,26 @@
             </h2>
             <p class="mt-6 whitespace-">{{ $team->text }}</p>
             <tr>
-                <td class="font-bold">Sponsor </td>
+                <h2 class="font-bold p-1 text-red-500">Sponsor </h2>
                 <td>{{ $team->sponsor->name }}</td>
+            </tr class="border-b">
+
+            <h2 class="font-bold p-1 text-red-500">Players </h2>
+            @foreach ($players as $player)
+                @php
+                    $values = explode(' ', $player->name);
+                @endphp
+                <ul>
+                    <li>{{ $player->name }}</li>
+                </ul>
+                {{-- <p>
+                        @if (in_array("$player->name", $values))
+                            {{ $players->name }}
+                        @endif
+                    </p> --}}
+            @endforeach
+            {{-- <td>{{ $team->player_name }}</td> --}}
+            {{-- <td>{{ $team->players->get }}</td> --}}
             </tr>
         </div>
         <ul>

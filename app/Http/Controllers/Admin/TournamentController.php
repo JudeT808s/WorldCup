@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Player;
 use App\Models\Team;
+use App\Models\Player;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class TournamentController extends Controller
@@ -156,7 +157,11 @@ class TournamentController extends Controller
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
-        $tournament->teams()->delete();
+
+        $tournament->teams()->detach();
+
+        DB::table('team_tournament')->where('team_id', $tournament->id)->delete();
+        // $tournament->teams()->delete();
         $tournament->delete();
 
         return to_route('admin.tournament.index')->with('success', 'Tournament deleted successfully');

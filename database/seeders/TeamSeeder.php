@@ -17,7 +17,10 @@ class TeamSeeder extends Seeder
     public function run()
     {
         //Calls the corresponding factory and runs a certain amount of times to create data in the database
-        Team::factory()->times(20)->create();
+        Team::factory()
+            ->times(20)
+            ->hasPlayers(11)
+            ->create();
 
         // foreach (Tournament::all() as $tournament) {
 

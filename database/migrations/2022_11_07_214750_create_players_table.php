@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('skill_level');
             $table->string('country');
             //Many players can be in one team
-            $table->foreignId('teams_id')->constrained();
             $table->timestamps();
         });
     }
@@ -33,5 +32,8 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('players');
+        Schema::dropIfExists('team_id');
+        $table->dropForeign('players_team_id_foreign');
+        $table->dropColumn('players_team_id_foreign');
     }
 };

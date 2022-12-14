@@ -22,6 +22,7 @@ class TeamController extends Controller
         $user->authorizeRoles('admin');
 
         $teams = Team::with('sponsor')
+            ->with('players')
             ->get();
 
 
@@ -84,15 +85,24 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
+
         $user = Auth::user();
         $user->authorizeRoles('admin');
 
         if (!Auth::id()) {
             return abort(403);
         }
+        $players = Player::where('team_id', $team->id)->get();
+        // $player = Team::find(1)->players;
+        //$players = $team->players->get();
 
 
-        return view('admin.team.show')->with('team', $team);
+        return view('admin.team.show')->with('team', $team)
+            ->with('players', $players);
+        //->with('name', $name);
+        // ->with([
+        //     'player_name' => $player->name
+        // ]);
     }
 
     /**

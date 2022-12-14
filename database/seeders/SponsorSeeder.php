@@ -19,7 +19,10 @@ class SponsorSeeder extends Seeder
 
         Sponsor::factory()
             ->times(3)
-            ->hasTeams(2)
+            ->has(
+                Team::factory()
+                    ->hasPlayers(11)
+            )
             ->create();
 
 

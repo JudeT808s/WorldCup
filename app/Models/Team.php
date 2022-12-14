@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Team extends Model
 {
     use HasFactory;
-    //protected $fillable = ['name', 'sponsor_id', 'user_id'];
     protected $guarded = [];
 
-    public function team()
+    public function players()
     {
         //One particular team can have many players (O:M)
         return $this->hasMany(Player::class);

@@ -9,7 +9,8 @@ class Player extends Model
 {
     use HasFactory;
 
-    public function player(){
+    public function team()
+    {
         //One particular player can only be in one team (O:M)
         return $this->belongsTo(Team::class);
     }
