@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Models\Team;
+use App\Models\Player;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
@@ -19,7 +20,7 @@ class TeamController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('user');
 
-        $teams = Team::with('sponsors')
+        $teams = Team::with('sponsor')
             ->get();
 
 
@@ -73,12 +74,19 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        $team = team::where('id', $id)->firstOrFail();
 
 
-        return view('user.team.show')->with('team', $team);
+        $players = Player::where('team_id', $team->id)->get();
+
+
+        return view('user.team.show')->with('team', $team)
+            ->with('players', $players);
+        // $team = Team::where('id', $id)->firstOrFail();
+
+
+        // return view('user.team.show')->with('team', $team);
     }
 
     /**

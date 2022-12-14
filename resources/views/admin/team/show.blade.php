@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('team') }}
+            {{ __('Team') }}
         </h2>
     </x-slot>
 
@@ -29,8 +29,8 @@
                 <h2 class="font-bold p-1 text-red-500">Sponsor </h2>
                 <td>{{ $team->sponsor->name }}</td>
             </tr class="border-b">
-
             <h2 class="font-bold p-1 text-red-500">Players </h2>
+            {{-- takes player array and explodes just the name, removing square brackets and quote marks into list --}}
             @foreach ($players as $player)
                 @php
                     $values = explode(' ', $player->name);

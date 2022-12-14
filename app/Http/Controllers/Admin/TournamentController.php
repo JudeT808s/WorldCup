@@ -57,6 +57,7 @@ class TournamentController extends Controller
             'location' => 'required',
             'description' => 'required|max:150',
             'start_date' => 'required',
+            //puts info into team_tournament migration as it is M:N
             'teams' => ['required', 'exists:teams,id']
         ]);
         //Fills in user imputed data into database migrations
@@ -66,6 +67,7 @@ class TournamentController extends Controller
             'description' => $request->description,
             'start_date' => $request->start_date,
             //'teams' => $request->teams,
+            //makes note of user who created tournament
             'user_id' => Auth::id()
         ]);
 
@@ -157,9 +159,9 @@ class TournamentController extends Controller
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
-
+        //Gets teams M:N to detatch foreign key
         $tournament->teams()->detach();
-
+        //drops team_id where equals tournament id that is deleted
         DB::table('team_tournament')->where('team_id', $tournament->id)->delete();
         // $tournament->teams()->delete();
         $tournament->delete();
