@@ -22,8 +22,6 @@ class TeamFactory extends Factory
         return [
             'name' => $this->faker->word,
             'user_id' => $this->faker->randomElement(User::pluck('id')),
-
-
         ];
     }
 }

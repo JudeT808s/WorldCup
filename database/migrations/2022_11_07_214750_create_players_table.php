@@ -33,7 +33,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('players');
         Schema::dropIfExists('team_id');
-        $table->dropForeign('players_team_id_foreign');
-        $table->dropColumn('players_team_id_foreign');
+        // $table->dropForeign('players_team_id_foreign');
+        // $table->dropColumn('players_team_id_foreign');
     }
 };

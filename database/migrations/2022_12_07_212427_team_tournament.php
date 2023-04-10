@@ -34,8 +34,8 @@ return new class extends Migration
     {
 
 
-        $table->dropForeign('players_team_id_foreign');
-        $table->dropColumn('players_team_id_foreign');
+        // $table->dropForeign('players_team_id_foreign');
+        // $table->dropColumn('players_team_id_foreign');
         // Schema::disableForeignKeyConstraints();
         // Schema::dropIfExists('team_id');
         Schema::dropIfExists('team_tournament');

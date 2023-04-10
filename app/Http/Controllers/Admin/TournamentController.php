@@ -132,6 +132,7 @@ class TournamentController extends Controller
             return abort(403);
         }
         //Makes sure everything is filled in from user
+        //Makes sure everything is filled in from user
         $request->validate([
             'name' => 'required',
             'location' => 'required',

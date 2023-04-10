@@ -31,5 +31,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('teams');
         Schema::dropIfExists('team_id');
+        Schema::dropIfExists('team_id');
     }
 };

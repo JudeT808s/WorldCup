@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 btn-lg">
-            <form action="{{ route('admin.team.store') }}" method="post">
+            <form action="{{ route('admin.team.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <x-text-input type="text" name="name" field="name" placeholder="name" class="w-full"
                     autocomplete="off" :value="@old('name')"></x-text-input>
@@ -23,6 +23,9 @@
                         @endforeach
                     </select>
                 </div>
+                <x-file-input type="file" name="team_image" placeholder="team" class="w-full mt-6"
+                    field="team_image">
+                </x-file-input>
                 <x-primary-button class="mt-6">Save Team</x-primary-button>
             </form>
         </div>

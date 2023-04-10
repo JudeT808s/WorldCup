@@ -29,8 +29,6 @@ return new class extends Migration
         Schema::table('players', function (Blueprint $table) {
             $table->dropForeign(['team_id']);
             $table->dropColumn('team_id');
-            $table->dropForeign('players_team_id_foreign');
-            $table->dropColumn('players_team_id_foreign');
         });
     }
 };

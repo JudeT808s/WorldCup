@@ -17,7 +17,7 @@ class Tournament extends Model
     // {
     //     return $this->hasMany(Team::class)->withTimestamps();
     // }
-
+        //One particular tournament can have many teams
     public function teams()
     {
         return $this->belongsToMany(Team::class)->withTimestamps();

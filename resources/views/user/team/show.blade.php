@@ -16,6 +16,11 @@
 
         </div>
         <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
+            <tr>
+                <td rowspan="6">
+                    <img src="{{ asset('storage/images/' . $team->team_image) }}" width="150" />
+                </td>
+            </tr>
             <h2 class="font-bold text-4xl">
                 {{ $team->name }}
             </h2>

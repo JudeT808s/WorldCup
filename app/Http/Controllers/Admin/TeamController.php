@@ -66,14 +66,23 @@ class TeamController extends Controller
         $request->validate([
             'name' => 'required',
             'sponsor_id' => 'required',
+            'team_image' => 'file|image'
         ]);
+
+        $team_image = $request->file('team_image');
+        $extension = $team_image->getClientOriginalExtension();
+        //filename must be unique, use name for unique filename
+        $filename = date('Y-m-d-His') . '_' . $request->input('name') . '.' . $extension;
+
+        //Store file $team_image in /public/images and name it $filename
+        $path = $team_image->storeAs('public/images', $filename);
 
         $team = Team::create([
             'name' => $request->name,
             'sponsor_id' => $request->sponsor_id,
+            'team_image' => $filename,
             'user_id' => Auth::id()
         ]);
-
         return to_route('admin.team.index');
     }
 
@@ -92,12 +101,14 @@ class TeamController extends Controller
         if (!Auth::id()) {
             return abort(403);
         }
+        //Makes players variable where team_id in players table is equal to id in teams
         $players = Player::where('team_id', $team->id)->get();
         // $player = Team::find(1)->players;
         //$players = $team->players->get();
 
 
         return view('admin.team.show')->with('team', $team)
+            //with mentioned $players variable
             ->with('players', $players);
         //->with('name', $name);
         // ->with([
